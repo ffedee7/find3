@@ -947,12 +947,6 @@ func (d *Database) Close() (err error) {
 		err = err2
 		logger.Log.Error(err)
 	}
-
-	// close filelock
-	// logger.Log.Debug("closing lock")
-	databaseLock.Lock()
-	delete(databaseLock.Locked, d.name)
-	databaseLock.Unlock()
 	d.isClosed = true
 	return
 }
