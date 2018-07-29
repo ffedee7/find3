@@ -907,6 +907,7 @@ func Open(family string, readOnly ...bool) (d *Database, err error) {
 	// logger.Log.Debug("opened sqlite3 database")
 
 	stmt, err := d.db.Prepare("SELECT EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'keystore')")
+
 	if err != nil {
 		err = errors.Wrap(err, "problem preparing SQL")
 		stmt.Close()
