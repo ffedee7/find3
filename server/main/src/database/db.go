@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 	"github.com/mr-tron/base58/base58"
 	"github.com/pkg/errors"
 	"github.com/schollz/find3/server/main/src/models"
@@ -897,44 +897,11 @@ func Open(family string, readOnly ...bool) (d *Database, err error) {
 	d = new(Database)
 	d.family = strings.TrimSpace(family)
 
-	// convert the name to base64 for file writing
-	// override the name
-	if len(readOnly) > 1 && readOnly[1] {
-		d.name = path.Join(DataFolder, d.family)
-	} else {
-		d.name = path.Join(DataFolder, base58.FastBase58Encoding([]byte(d.family))+".sqlite3.db")
-	}
-
-	// if read-only, make sure the database exists
-	if _, err = os.Stat(d.name); err != nil && len(readOnly) > 0 && readOnly[0] {
-		err = errors.New(fmt.Sprintf("group '%s' does not exist", d.family))
-		return
-	}
-
-	// obtain a lock on the database
-	// logger.Log.Debugf("getting filelock on %s", d.name+".lock")
-	for {
-		var ok bool
-		databaseLock.Lock()
-		if _, ok = databaseLock.Locked[d.name]; !ok {
-			databaseLock.Locked[d.name] = true
-		}
-		databaseLock.Unlock()
-		if !ok {
-			break
-		}
-		time.Sleep(10 * time.Millisecond)
-	}
-	// logger.Log.Debugf("got filelock")
-
-	// check if it is a new database
-	newDatabase := false
-	if _, err := os.Stat(d.name); os.IsNotExist(err) {
-		newDatabase = true
-	}
+	connStr := "postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi"
+	newDatabase := true
 
 	// open sqlite3 database
-	d.db, err = sql.Open("sqlite3", d.name)
+	d.db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		return
 	}
