@@ -898,7 +898,6 @@ func Open(family string, readOnly ...bool) (d *Database, err error) {
 	d.family = strings.TrimSpace(family)
 
 	connStr := "postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi"
-	newDatabase := true
 
 	// open sqlite3 database
 	d.db, err = sql.Open("postgres", connStr)
@@ -907,8 +906,18 @@ func Open(family string, readOnly ...bool) (d *Database, err error) {
 	}
 	// logger.Log.Debug("opened sqlite3 database")
 
+	stmt, err := d.db.Prepare("SELECT EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'keystore')")
+
+	if err != nil {
+		err = errors.Wrap(err, "problem preparing SQL")
+		stmt.Close()
+		return
+	}
+	var dbExist bool
+	err = stmt.QueryRow().Scan(&dbExist)
+
 	// create new database tables if needed
-	if newDatabase {
+	if dbExist == false {
 		err = d.MakeTables()
 		if err != nil {
 			return
