@@ -1,8 +1,8 @@
 [![](https://raw.githubusercontent.com/schollz/find/master/static/splash.gif)](https://www.internalpositioning.com/)
 
-[![Version 3.0](https://img.shields.io/badge/read-docs-blue.svg?style=for-the-badge)](https://www.internalpositioning.com/doc) 
-[![Version 3.0](https://img.shields.io/badge/join-slack-orange.svg?style=for-the-badge)](https://join.slack.com/t/find3/shared_invite/enQtMzU4MjY0NjE1NjU0LWRkY2JhNWFkM2U3Y2JhY2RlZTQ5ZTdmZTQ2M2UzMjI2MGVmMjZlOWQyZmU3MzM5YzIzOTM0YmYzYmQ3NTQzNjQ) 
-[![Version 3.0](https://img.shields.io/badge/version-3.0.0-brightgreen.svg?style=for-the-badge)](https://github.com/schollz/find3/releases/latest) 
+[![Version 3.0](https://img.shields.io/badge/read-docs-blue.svg?style=for-the-badge)](https://www.internalpositioning.com/doc)
+[![Version 3.0](https://img.shields.io/badge/join-slack-orange.svg?style=for-the-badge)](https://join.slack.com/t/find3/shared_invite/enQtMzU4MjY0NjE1NjU0LWRkY2JhNWFkM2U3Y2JhY2RlZTQ5ZTdmZTQ2M2UzMjI2MGVmMjZlOWQyZmU3MzM5YzIzOTM0YmYzYmQ3NTQzNjQ)
+[![Version 3.0](https://img.shields.io/badge/version-3.0.0-brightgreen.svg?style=for-the-badge)](https://github.com/schollz/find3/releases/latest)
 [![Donate](https://img.shields.io/badge/donate-$-brown.svg?style=for-the-badge)](https://www.paypal.me/ZackScholl/5.00)
 [![Say Thanks](https://img.shields.io/badge/Say%20Thanks-!-yellow.svg?style=for-the-badge)](https://saythanks.io/to/schollz)
 
@@ -23,7 +23,7 @@ This repository is a complete re-write of the previous version of FIND ([github.
 - Data storage in SQLite-database (previously it was BoltDB)
 - Released under MIT license (more commercially compatible than AGPL)
 
-The API for sending fingerprints (`/track` and `/learn`) and MQTT endpoints are backward compatible. 
+The API for sending fingerprints (`/track` and `/learn`) and MQTT endpoints are backward compatible.
 
 # Status
 
@@ -49,6 +49,7 @@ Subscribe to the [Slack channel](https://join.slack.com/t/find3/shared_invite/en
 
 Use the [FIND mailing list](http://eepurl.com/bhfFI1) for discussion about use and development.
 
-# License 
+# License
 
 MIT
+FING
