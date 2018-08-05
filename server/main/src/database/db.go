@@ -156,13 +156,13 @@ func (d *Database) Set(key string, value interface{}) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "Set")
 	}
-	stmt, err := tx.Prepare("insert or replace into keystore(key,value) values (?, ?)")
+	stmt, err := tx.Prepare("insert into keystore(key,value) values (?, ?) on conflict (key) do update set value = ?")
 	if err != nil {
 		return errors.Wrap(err, "Set")
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(key, string(b))
+	_, err = stmt.Exec(key, string(b), string(b))
 	if err != nil {
 		return errors.Wrap(err, "Set")
 	}
@@ -205,13 +205,13 @@ func (d *Database) AddPrediction(timestamp int64, aidata []models.LocationPredic
 	if err != nil {
 		return errors.Wrap(err, "begin AddPrediction")
 	}
-	stmt, err := tx.Prepare("insert or replace into location_predictions (timestamp,prediction) values (?, ?)")
+	stmt, err := tx.Prepare("insert into location_predictions (timestamp,prediction) values (?, ?) on conflict (timestamp) do update set prediction = ?")
 	if err != nil {
 		return errors.Wrap(err, "stmt AddPrediction")
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(timestamp, string(b))
+	_, err = stmt.Exec(timestamp, string(b), string(b))
 	if err != nil {
 		return errors.Wrap(err, "exec AddPrediction")
 	}
@@ -334,7 +334,17 @@ func (d *Database) AddSensor(s models.SensorData) (err error) {
 	}
 	newColumnList = newColumnList[:j]
 
-	sqlStatement := "insert or replace into sensors(" + strings.Join(newColumnList, ",") + ") values (" + strings.Join(argsQ, ",") + ")"
+	// FIXME: fix this
+	updateStatement := ""
+	for index := range newColumnList {
+		if newColumnList[index] == "id" {
+			continue
+		}
+		updateStatement += newColumnList[index] + "=" + argsQ[index] + ","
+	}
+
+
+	sqlStatement := "insert into sensors(" + strings.Join(newColumnList, ",") + ") values (" + strings.Join(argsQ, ",") + ") on conflict(id) do update set" + updateStatement
 	stmt, err := tx.Prepare(sqlStatement)
 	// logger.Log.Debug("columns", columnList)
 	// logger.Log.Debug("args", args)
@@ -814,11 +824,11 @@ func (d *Database) DeleteLocation(locationName string) (err error) {
 func (d *Database) GetID(table string, name string) (id string, err error) {
 	// first check to see if it has already been added
 	stmt, err := d.db.Prepare("SELECT id FROM " + table + " WHERE name = ?")
-	defer stmt.Close()
 	if err != nil {
 		err = errors.Wrap(err, "problem preparing SQL")
 		return
 	}
+	defer stmt.Close()
 	err = stmt.QueryRow(name).Scan(&id)
 	return
 }
@@ -1071,7 +1081,7 @@ func (d *Database) SetGPS(p models.SensorData) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "SetGPS")
 	}
-	stmt, err := tx.Prepare("insert or replace into gps(timestamp ,mac, loc, lat, lon, alt) values (?, ?, ?, ?, ?,?)")
+	stmt, err := tx.Prepare("insert into gps(timestamp ,mac, loc, lat, lon, alt) values (?, ?, ?, ?, ?,?)")
 	if err != nil {
 		return errors.Wrap(err, "SetGPS")
 	}
