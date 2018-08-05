@@ -126,7 +126,7 @@ func (d *Database) Columns() (columns []string, err error) {
 
 // Get will retrieve the value associated with a key.
 func (d *Database) Get(key string, v interface{}) (err error) {
-	stmt, err := d.db.Prepare("select value from keystore where key = ?")
+	stmt, err := d.db.Prepare("select value from keystore where key = $1")
 	if err != nil {
 		return errors.Wrap(err, "problem preparing SQL")
 	}
@@ -134,6 +134,7 @@ func (d *Database) Get(key string, v interface{}) (err error) {
 	var result string
 	err = stmt.QueryRow(key).Scan(&result)
 	if err != nil {
+		logger.Log.Debugf("error looking for %s", key)
 		return errors.Wrap(err, "problem getting key")
 	}
 
@@ -156,13 +157,13 @@ func (d *Database) Set(key string, value interface{}) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "Set")
 	}
-	stmt, err := tx.Prepare("insert into keystore(key,value) values (?, ?) on conflict (key) do update set value = ?")
+	stmt, err := tx.Prepare("insert into keystore(key,value) values ($1, $2) on conflict (key) do update set value = $2")
 	if err != nil {
 		return errors.Wrap(err, "Set")
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(key, string(b), string(b))
+	_, err = stmt.Exec(key, string(b))
 	if err != nil {
 		return errors.Wrap(err, "Set")
 	}
@@ -205,7 +206,7 @@ func (d *Database) AddPrediction(timestamp int64, aidata []models.LocationPredic
 	if err != nil {
 		return errors.Wrap(err, "begin AddPrediction")
 	}
-	stmt, err := tx.Prepare("insert into location_predictions (timestamp,prediction) values (?, ?) on conflict (timestamp) do update set prediction = ?")
+	stmt, err := tx.Prepare("insert into location_predictions (timestamp,prediction) values ($1, $2) on conflict (timestamp) do update set prediction = $3")
 	if err != nil {
 		return errors.Wrap(err, "stmt AddPrediction")
 	}
@@ -225,7 +226,7 @@ func (d *Database) AddPrediction(timestamp int64, aidata []models.LocationPredic
 
 // GetPrediction will retrieve models.LocationAnalysis associated with that timestamp
 func (d *Database) GetPrediction(timestamp int64) (aidata []models.LocationPrediction, err error) {
-	stmt, err := d.db.Prepare("SELECT prediction FROM location_predictions WHERE timestamp = ?")
+	stmt, err := d.db.Prepare("SELECT prediction FROM location_predictions WHERE timestamp = $1")
 	if err != nil {
 		err = errors.Wrap(err, "problem preparing SQL")
 		return
@@ -264,11 +265,11 @@ func (d *Database) AddSensor(s models.SensorData) (err error) {
 	var sensorDataStringSizerString string
 	err = d.Get("sensorDataStringSizer", &sensorDataStringSizerString)
 	if err != nil {
-		return
+		return errors.Wrap(err, "get sensor data")
 	}
 	sensorDataSS, err := stringsizer.New(sensorDataStringSizerString)
 	if err != nil {
-		return
+		return errors.Wrap(err, "stringsizer")
 	}
 	previousCurrent := sensorDataSS.Current
 
@@ -294,7 +295,8 @@ func (d *Database) AddSensor(s models.SensorData) (err error) {
 	args[0] = s.Timestamp
 	args[1] = deviceID
 	args[2] = locationID
-	argsQ := []string{"?", "?", "?"}
+	argsQ := []string{"$1", "$2", "$3"}
+	cantArgs := 3
 	for sensor := range s.Sensors {
 		if _, ok := oldColumns[sensor]; !ok {
 			stmt, err := tx.Prepare("alter table sensors add column " + sensor + " text")
@@ -316,7 +318,9 @@ func (d *Database) AddSensor(s models.SensorData) (err error) {
 		if _, ok := s.Sensors[sensor]; !ok {
 			continue
 		}
-		argsQ = append(argsQ, "?")
+		cantArgs ++
+		sqlVarNumber := "$" + fmt.Sprint(cantArgs)
+		argsQ = append(argsQ, sqlVarNumber)
 		args = append(args, sensorDataSS.ShrinkMapToString(s.Sensors[sensor]))
 	}
 
@@ -337,16 +341,19 @@ func (d *Database) AddSensor(s models.SensorData) (err error) {
 	// FIXME: fix this
 	updateStatement := ""
 	for index := range newColumnList {
-		if newColumnList[index] == "id" {
+		if index > 1 {
+			updateStatement += ","
+		}
+		if newColumnList[index] == "timestamp" {
 			continue
 		}
-		updateStatement += newColumnList[index] + "=" + argsQ[index] + ","
+		updateStatement += newColumnList[index] + "=" + argsQ[index]
 	}
 
 
-	sqlStatement := "insert into sensors(" + strings.Join(newColumnList, ",") + ") values (" + strings.Join(argsQ, ",") + ") on conflict(id) do update set" + updateStatement
+	sqlStatement := "insert into sensors(" + strings.Join(newColumnList, ",") + ") values (" + strings.Join(argsQ, ",") + ") on conflict(timestamp) do update set " + updateStatement
 	stmt, err := tx.Prepare(sqlStatement)
-	// logger.Log.Debug("columns", columnList)
+	logger.Log.Debug("query!", sqlStatement)
 	// logger.Log.Debug("args", args)
 	if err != nil {
 		return errors.Wrap(err, "AddSensor, prepare "+sqlStatement)
@@ -378,7 +385,7 @@ func (d *Database) AddSensor(s models.SensorData) (err error) {
 
 // GetSensorFromTime will return a sensor data for a given timestamp
 func (d *Database) GetSensorFromTime(timestamp interface{}) (s models.SensorData, err error) {
-	sensors, err := d.GetAllFromPreparedQuery("SELECT * FROM sensors WHERE timestamp = ?", timestamp)
+	sensors, err := d.GetAllFromPreparedQuery("SELECT * FROM sensors WHERE timestamp = $1", timestamp)
 	if err != nil {
 		err = errors.Wrap(err, "GetSensorFromTime")
 	} else {
@@ -424,7 +431,7 @@ func (d *Database) GetSensorFromGreaterTime(timeBlockInMilliseconds int64) (sens
 		return
 	}
 	minimumTimestamp := latestTime - timeBlockInMilliseconds
-	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM (SELECT * FROM sensors WHERE timestamp > ? GROUP BY deviceid ORDER BY timestamp DESC)", minimumTimestamp)
+	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM (SELECT * FROM sensors WHERE timestamp > $1 GROUP BY deviceid ORDER BY timestamp DESC)", minimumTimestamp)
 	return
 }
 
@@ -444,7 +451,7 @@ func (d *Database) NumDevices() (num int, err error) {
 
 func (d *Database) GetDeviceFirstTimeFromDevices(devices []string) (firstTime map[string]time.Time, err error) {
 	firstTime = make(map[string]time.Time)
-	query := fmt.Sprintf("select n,t from (select devices.name as n,sensors.timestamp as t from sensors inner join devices on sensors.deviceid=devices.id WHERE devices.name IN ('%s') order by timestamp desc) group by n", strings.Join(devices, "','"))
+	query := fmt.Sprintf("select n,t from (select devices.name as n,sensors.timestamp as t from sensors inner join devices on sensors.deviceid=devices.id WHERE devices.name IN ('%s') order by timestamp desc) as q group by n, t", strings.Join(devices, "','"))
 
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
@@ -518,7 +525,7 @@ func (d *Database) GetDeviceFirstTime() (firstTime map[string]time.Time, err err
 func (d *Database) GetDeviceCountsFromDevices(devices []string) (counts map[string]int, err error) {
 
 	counts = make(map[string]int)
-	query := fmt.Sprintf("select devices.name,count(sensors.timestamp) as num from sensors inner join devices on sensors.deviceid=devices.id WHERE devices.name in ('%s') group by sensors.deviceid", strings.Join(devices, "','"))
+	query := fmt.Sprintf("select devices.name,count(sensors.timestamp) as num from sensors inner join devices on sensors.deviceid=devices.id WHERE devices.name in ('%s') group by sensors.deviceid, devices.name", strings.Join(devices, "','"))
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		err = errors.Wrap(err, query)
@@ -637,7 +644,7 @@ func (d *Database) GetLatest(device string) (s models.SensorData, err error) {
 		return
 	}
 	var sensors []models.SensorData
-	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM sensors WHERE deviceID=? ORDER BY timestamp DESC LIMIT 1", deviceID)
+	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM sensors WHERE deviceID=$1 ORDER BY timestamp DESC LIMIT 1", deviceID)
 	if err != nil {
 		return
 	}
@@ -650,7 +657,7 @@ func (d *Database) GetLatest(device string) (s models.SensorData, err error) {
 }
 
 func (d *Database) GetKeys(keylike string) (keys []string, err error) {
-	query := "SELECT key FROM keystore WHERE key LIKE ?"
+	query := "SELECT key FROM keystore WHERE key LIKE $1"
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		err = errors.Wrap(err, query)
@@ -809,7 +816,7 @@ func (d *Database) DeleteLocation(locationName string) (err error) {
 	if err != nil {
 		return
 	}
-	stmt, err := d.db.Prepare("DELETE FROM sensors WHERE locationid = ?")
+	stmt, err := d.db.Prepare("DELETE FROM sensors WHERE locationid = $1")
 	if err != nil {
 		err = errors.Wrap(err, "problem preparing SQL")
 		return
@@ -823,7 +830,7 @@ func (d *Database) DeleteLocation(locationName string) (err error) {
 // GetID will get the ID of an element in a table (devices/locations) and return an error if it doesn't exist
 func (d *Database) GetID(table string, name string) (id string, err error) {
 	// first check to see if it has already been added
-	stmt, err := d.db.Prepare("SELECT id FROM " + table + " WHERE name = ?")
+	stmt, err := d.db.Prepare("SELECT id FROM " + table + " WHERE name = $1")
 	if err != nil {
 		err = errors.Wrap(err, "problem preparing SQL")
 		return
@@ -868,7 +875,7 @@ func (d *Database) AddName(table string, name string) (deviceID string, err erro
 		err = errors.Wrap(err, "AddName")
 		return
 	}
-	query := "insert into " + table + "(id,name) values (?, ?)"
+	query := "insert into " + table + "(id,name) values ($1, $2)"
 	// logger.Log.Debugf("running query: '%s'", query)
 	stmt, err = tx.Prepare(query)
 	if err != nil {
@@ -1081,7 +1088,7 @@ func (d *Database) SetGPS(p models.SensorData) (err error) {
 	if err != nil {
 		return errors.Wrap(err, "SetGPS")
 	}
-	stmt, err := tx.Prepare("insert into gps(timestamp ,mac, loc, lat, lon, alt) values (?, ?, ?, ?, ?,?)")
+	stmt, err := tx.Prepare("insert into gps(timestamp ,mac, loc, lat, lon, alt) values ($1, $2, $3, $4, $5, $6)")
 	if err != nil {
 		return errors.Wrap(err, "SetGPS")
 	}
@@ -1106,7 +1113,7 @@ func (d *Database) SetGPS(p models.SensorData) (err error) {
 // // GetGPS will return a GPS for a given mac, if it exists
 // // if it doesn't exist it will return an error
 // func (d *Database) GetGPS(mac string) (gps models.GPS, err error) {
-// 	query := "SELECT mac,lat,lon,alt,timestamp FROM gps WHERE mac == ?"
+// 	query := "SELECT mac,lat,lon,alt,timestamp FROM gps WHERE mac == $1"
 // 	stmt, err := d.db.Prepare(query)
 // 	if err != nil {
 // 		err = errors.Wrap(err, query)
