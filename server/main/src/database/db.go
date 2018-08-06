@@ -47,14 +47,14 @@ func (d *Database) MakeTables() (err error) {
 		logger.Log.Error(err)
 		return
 	}
-	sqlStmt = `create table sensors (timestamp integer not null primary key, deviceid text, locationid text, unique(timestamp));`
+	sqlStmt = `create table sensors (timestamp numeric(20,0) not null primary key, deviceid text, locationid text, unique(timestamp));`
 	_, err = d.db.Exec(sqlStmt)
 	if err != nil {
 		err = errors.Wrap(err, "MakeTables")
 		logger.Log.Error(err)
 		return
 	}
-	sqlStmt = `CREATE TABLE location_predictions (timestamp integer NOT NULL PRIMARY KEY, prediction TEXT, UNIQUE(timestamp));`
+	sqlStmt = `CREATE TABLE location_predictions (timestamp numeric(20,0) NOT NULL PRIMARY KEY, prediction TEXT, UNIQUE(timestamp));`
 	_, err = d.db.Exec(sqlStmt)
 	if err != nil {
 		err = errors.Wrap(err, "MakeTables")
@@ -76,7 +76,7 @@ func (d *Database) MakeTables() (err error) {
 		return
 	}
 
-	sqlStmt = `CREATE TABLE gps (id INTEGER PRIMARY KEY, timestamp INTEGER, mac TEXT, loc TEXT, lat REAL, lon REAL, alt REAL);`
+	sqlStmt = `CREATE TABLE gps (id INTEGER PRIMARY KEY, timestamp numeric(20,0), mac TEXT, loc TEXT, lat REAL, lon REAL, alt REAL);`
 	_, err = d.db.Exec(sqlStmt)
 	if err != nil {
 		err = errors.Wrap(err, "MakeTables")
