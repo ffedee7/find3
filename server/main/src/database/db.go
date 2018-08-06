@@ -12,6 +12,7 @@ import (
 	"path"
 	"strings"
 	"time"
+	"strconv"
 
 	_ "github.com/lib/pq"
 	"github.com/mr-tron/base58/base58"
@@ -1051,9 +1052,11 @@ func (d *Database) getRows(rows *sql.Rows) (s []models.SensorData, err error) {
 			err = errors.Wrap(err, "getRows")
 			return
 		}
+		str_timestamp := string((*arr[0].(*interface{})).([]uint8))
+		int_timestamp, _ := strconv.ParseInt(str_timestamp, 10, 64)
 		s0 := models.SensorData{
 			// the underlying value of the interface pointer and cast it to a pointer interface to cast to a byte to cast to a string
-			Timestamp: int64((*arr[0].(*interface{})).(int64)),
+			Timestamp: int_timestamp,
 			Family:    d.family,
 			Device:    deviceIDToName[string((*arr[1].(*interface{})).([]uint8))],
 			Location:  locationIDToName[string((*arr[2].(*interface{})).([]uint8))],
@@ -1070,6 +1073,7 @@ func (d *Database) getRows(rows *sql.Rows) (s []models.SensorData, err error) {
 			shortenedJSON := string((*arr[i].(*interface{})).([]uint8))
 			s0.Sensors[colName], err = sensorDataSS.ExpandMapFromString(shortenedJSON)
 			if err != nil {
+				err = errors.Wrap(err, "getRows")
 				return
 			}
 		}
