@@ -6,8 +6,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -152,6 +150,7 @@ func (d *Database) Set(key string, value interface{}) (err error) {
 	var b []byte
 	b, err = json.Marshal(value)
 	if err != nil {
+		logger.Log.Debugf("json error key = " + key)
 		return err
 	}
 	tx, err := d.db.Begin()
@@ -432,7 +431,7 @@ func (d *Database) GetSensorFromGreaterTime(timeBlockInMilliseconds int64) (sens
 		return
 	}
 	minimumTimestamp := latestTime - timeBlockInMilliseconds
-	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM (SELECT * FROM sensors WHERE timestamp > $1 GROUP BY deviceid ORDER BY timestamp DESC)", minimumTimestamp)
+	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM (SELECT * FROM sensors WHERE timestamp > $1 GROUP BY deviceid, timestamp ORDER BY timestamp DESC) as SUBQUERY", minimumTimestamp)
 	return
 }
 
@@ -592,7 +591,7 @@ func (d *Database) GetDeviceCounts() (counts map[string]int, err error) {
 
 func (d *Database) GetLocationCounts() (counts map[string]int, err error) {
 	counts = make(map[string]int)
-	query := "SELECT locations.name,count(sensors.timestamp) as num from sensors inner join locations on sensors.locationid=locations.id group by sensors.locationid"
+	query := "SELECT locations.name,count(sensors.timestamp) as num from sensors inner join locations on sensors.locationid=locations.id group by sensors.locationid, locations.name"
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		err = errors.Wrap(err, query)
@@ -635,7 +634,7 @@ func (d *Database) GetAllForClassification() (s []models.SensorData, err error) 
 
 // GetAllForClassification will return a sensor data for classifying
 func (d *Database) GetAllNotForClassification() (s []models.SensorData, err error) {
-	return d.GetAllFromQuery("SELECT * FROM sensors WHERE sensors.locationid =='' ORDER BY timestamp")
+	return d.GetAllFromQuery("SELECT * FROM sensors WHERE sensors.locationid = '' ORDER BY timestamp")
 }
 
 // GetLatest will return a sensor data for classifying
@@ -690,7 +689,7 @@ func (d *Database) GetKeys(keylike string) (keys []string, err error) {
 }
 
 func (d *Database) GetDevices() (devices []string, err error) {
-	query := "SELECT devicename FROM (SELECT devices.name as devicename,COUNT(devices.name) as counts FROM sensors INNER JOIN devices ON sensors.deviceid = devices.id GROUP by devices.name) ORDER BY counts DESC"
+	query := "SELECT devicename FROM (SELECT devices.name as devicename,COUNT(devices.name) as counts FROM sensors INNER JOIN devices ON sensors.deviceid = devices.id GROUP by devices.name ORDER BY counts DESC) as subquery"
 	stmt, err := d.db.Prepare(query)
 	if err != nil {
 		err = errors.Wrap(err, query)
@@ -786,29 +785,7 @@ func (d *Database) GetIDToName(table string) (idToName map[string]string, err er
 }
 
 func GetFamilies() (families []string) {
-	files, err := ioutil.ReadDir(DataFolder)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	families = make([]string, len(files))
-	i := 0
-	for _, f := range files {
-		if !strings.Contains(f.Name(), ".sqlite3.db") {
-			continue
-		}
-		b, err := base58.Decode(strings.TrimSuffix(f.Name(), ".sqlite3.db"))
-		if err != nil {
-			continue
-		}
-		families[i] = string(b)
-		i++
-	}
-	if i > 0 {
-		families = families[:i]
-	} else {
-		families = []string{}
-	}
+	families = []string{"No families"}
 	return
 }
 
@@ -1058,8 +1035,8 @@ func (d *Database) getRows(rows *sql.Rows) (s []models.SensorData, err error) {
 			// the underlying value of the interface pointer and cast it to a pointer interface to cast to a byte to cast to a string
 			Timestamp: int_timestamp,
 			Family:    d.family,
-			Device:    deviceIDToName[string((*arr[1].(*interface{})).([]uint8))],
-			Location:  locationIDToName[string((*arr[2].(*interface{})).([]uint8))],
+			Device:    deviceIDToName[string((*arr[1].(*interface{})).(string))],
+			Location:  locationIDToName[string((*arr[2].(*interface{})).(string))],
 			Sensors:   make(map[string]map[string]interface{}),
 		}
 		// add in the sensor data
@@ -1070,7 +1047,7 @@ func (d *Database) getRows(rows *sql.Rows) (s []models.SensorData, err error) {
 			if *arr[i].(*interface{}) == nil {
 				continue
 			}
-			shortenedJSON := string((*arr[i].(*interface{})).([]uint8))
+			shortenedJSON := string((*arr[i].(*interface{})).(string))
 			s0.Sensors[colName], err = sensorDataSS.ExpandMapFromString(shortenedJSON)
 			if err != nil {
 				err = errors.Wrap(err, "getRows")

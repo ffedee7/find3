@@ -334,6 +334,9 @@ func findBestAlgorithm(datas []models.SensorData) (algorithmEfficacy map[string]
 	badProbs = badProbs[:i]
 	badMean := average(badProbs)
 	badSD := stdDev(badProbs, badMean)
+	if math.IsNaN(badSD){
+		badSD = 0
+	}
 
 	for loc := range accuracyBreakdown {
 		accuracyBreakdown[loc] = accuracyBreakdown[loc] / accuracyBreakdownTotal[loc]
