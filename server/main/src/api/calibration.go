@@ -334,6 +334,7 @@ func findBestAlgorithm(datas []models.SensorData) (algorithmEfficacy map[string]
 	badProbs = badProbs[:i]
 	badMean := average(badProbs)
 	badSD := stdDev(badProbs, badMean)
+	// FIXME
 	if math.IsNaN(badSD){
 		badSD = 0
 	}
