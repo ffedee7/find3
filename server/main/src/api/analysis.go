@@ -75,7 +75,7 @@ func AnalyzeSensorData(s models.SensorData) (aidata models.LocationAnalysis, err
 		var p2 ClassifyPayload
 		p2.Sensor = s
 		p2.DataFolder = DataFolder
-		url := "http://localhost:" + AIPort + "/classify"
+		url := "http://ai:" + AIPort + "/classify"
 		bPayload, err := json.Marshal(p2)
 		if err != nil {
 			err = errors.Wrap(err, "problem marshaling data")

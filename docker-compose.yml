@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+  find3-network:
+    driver: bridge
+
+services:
+  server:
+    container_name: server
+    build: ./server/main
+    restart: always
+    volumes:
+      - ./server/main:/go/src/github.com/schollz/find3/server/main/
+    ports:
+      - "11883:1883"
+      - "8005:8003"
+    networks:
+      - find3-network
+    links:
+      - "ai:ai"
+    ports:
+      - "8005:8005"
+  ai:
+    container_name: ai
+    build: ./server/ai
+    restart: always
+    volumes:
+      - ./server/ai:/app
+    networks:
+      - find3-network
+  info_api:
+    container_name: info_api
+    build: ./information_api
+    restart: always
+    volumes:
+      - ./information_api:/app
+    networks:
+      - find3-network
+    ports:
+      - "8003:8003"
