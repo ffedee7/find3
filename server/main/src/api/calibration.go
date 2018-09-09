@@ -17,7 +17,6 @@ import (
 	"github.com/schollz/find3/server/main/src/learning/nb1"
 	"github.com/schollz/find3/server/main/src/learning/nb2"
 	"github.com/schollz/find3/server/main/src/models"
-	"github.com/schollz/find3/server/main/src/utils"
 )
 
 // Calibrate will send the sensor data for a specific family to the machine learning algorithms
@@ -131,19 +130,24 @@ func learnFromData(family string, datas []models.SensorData) (err error) {
 	type Payload struct {
 		Family     string `json:"family"`
 		CSVFile    string `json:"csv_file"`
-		DataFolder string `json:"data_folder"`
 	}
 	var p Payload
-	p.CSVFile = utils.RandomString(8) + ".csv"
-	p.Family = family
-	p.DataFolder = DataFolder
 
-	logger.Log.Debugf("[%s] writing data to %s", family, path.Join(p.DataFolder, p.CSVFile))
-	err = dumpSensorsToCSV(datas, path.Join(p.DataFolder, p.CSVFile))
+	csv_file_name := time.Now().Format("20060102150405") + ".csv"
+
+	p.CSVFile = "csv/" + csv_file_name
+	p.Family = family
+
+	csv_path := path.Join(DataFolder, csv_file_name)
+
+	logger.Log.Debugf("[%s] writing data to %s", family, csv_path)
+	err = dumpSensorsToCSV(datas, csv_path)
 	if err != nil {
 		return
 	}
-	defer os.Remove(path.Join(p.DataFolder, p.CSVFile))
+	defer os.Remove(csv_path)
+
+	S3Upload(p.CSVFile, csv_path)
 
 	url := "http://ai:" + AIPort + "/learn"
 	bPayload, err := json.Marshal(p)
