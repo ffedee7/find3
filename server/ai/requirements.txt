@@ -23,3 +23,4 @@ tqdm==4.23.0
 ujson==1.35
 Werkzeug==0.14.1
 gunicorn==19.9.0
+boto3

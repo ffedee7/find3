@@ -45,16 +45,11 @@ def classify():
     if 'sensor_data' not in payload:
         return jsonify({'success': False, 'message': 'must provide sensor data'})
 
-    data_folder = '.'
-    if 'data_folder' in payload:
-        data_folder = payload['data_folder']
-
-    fname = os.path.join(data_folder, to_base58(
-        payload['sensor_data']['f']) + ".find3.ai")
+    fname = to_base58(payload['sensor_data']['f']) + ".ai"
 
     ai = ai_cache.get(payload['sensor_data']['f'])
-    if ai == None:
-        ai = AI(to_base58(payload['sensor_data']['f']), data_folder)
+    if ai is None:
+        ai = AI(to_base58(payload['sensor_data']['f']))
         logger.debug("loading {}".format(fname))
         try:
             ai.load(fname)
@@ -78,24 +73,14 @@ def learn():
         return jsonify({'success': False, 'message': 'must provide family'})
     if 'csv_file' not in payload:
         return jsonify({'success': False, 'message': 'must provide CSV file'})
-    data_folder = '.'
-    if 'data_folder' in payload:
-        data_folder = payload['data_folder']
-    else:
-        logger.debug("could not find data_folder in payload")
 
-    logger.debug(data_folder)
-
-    ai = AI(to_base58(payload['family']), data_folder)
-    fname = os.path.join(data_folder, payload['csv_file'])
+    ai = AI(to_base58(payload['family']))
     try:
-        ai.learn(fname)
-    except FileNotFoundError:
-        return jsonify({"success": False, "message": "could not find '{}'".format(fname)})
+        ai.learn(payload['csv_file'])
+    except Exception as e:
+        return jsonify({"success": False, "message": f"ERROR learning {e}"})
 
-    print(payload['family'])
-    ai.save(os.path.join(data_folder, to_base58(
-        payload['family']) + ".find3.ai"))
+    ai.save(to_base58(payload['family']) + ".ai")
     ai_cache[payload['family']] = ai
     return jsonify({"success": True, "message": "calibrated data"})
 

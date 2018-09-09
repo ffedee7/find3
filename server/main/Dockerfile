@@ -2,6 +2,7 @@ FROM golang:latest
 
 RUN go get -u -v github.com/schollz/find3/...
 RUN go get github.com/lib/pq
+RUN go get -u github.com/aws/aws-sdk-go
 
 RUN rm -rf /go/src/github.com/schollz/find3/server/main/*
 

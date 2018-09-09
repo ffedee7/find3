@@ -1,18 +1,29 @@
 #!/usr/bin/python3
 
-import json
+import io
 import csv
-from random import shuffle
+
 import warnings
 import pickle
-import gzip
 import operator
 import time
 import logging
 import math
-from threading import Thread
 import functools
-import multiprocessing
+import numpy
+
+from threading import Thread
+from random import shuffle
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn import cluster, mixture
+from sklearn.neighbors import kneighbors_graph
+from s3_helper import put_file, get_file
 
 # create logger with 'spam_application'
 logger = logging.getLogger('learn')
@@ -27,23 +38,6 @@ fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
-
-import numpy
-from sklearn.feature_extraction import DictVectorizer
-from sklearn.pipeline import make_pipeline
-from sklearn.neural_network import MLPClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.gaussian_process.kernels import RBF
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-from sklearn import cluster, mixture
-from sklearn.neighbors import kneighbors_graph
-from naive_bayes import ExtendedNaiveBayes
-from naive_bayes2 import ExtendedNaiveBayes2
 
 
 def timeout(timeout):
@@ -75,11 +69,10 @@ def timeout(timeout):
 
 class AI(object):
 
-    def __init__(self, family, path_to_data):
+    def __init__(self, family):
         self.logger = logging.getLogger('learn.AI')
         self.naming = {'from': {}, 'to': {}}
         self.family = family
-        self.path_to_data = path_to_data
 
     def classify(self, sensor_data):
         header = self.header[1:]
@@ -107,7 +100,7 @@ class AI(object):
             threads[i].join()
 
         for result in self.results:
-            if result != None:
+            if result is not None:
                 payload['predictions'].append(result)
         payload['is_unknown'] = is_unknown
         return payload
@@ -120,7 +113,6 @@ class AI(object):
         if name == 'Gaussian Process':
             return
 
-        t = time.time()
         try:
             prediction = self.algorithms[
                 name].predict_proba(self.csv_dataClassify)
@@ -188,25 +180,28 @@ class AI(object):
         self.header = []
         rows = []
         naming_num = 0
-        with open(fname, 'r') as csvfile:
-            reader = csv.reader(csvfile, delimiter=',')
-            for i, row in enumerate(reader):
-                if i == 0:
-                    self.header = row
-                else:
-                    for j, val in enumerate(row):
-                        if val == '':
-                            row[j] = 0
-                            continue
-                        try:
-                            row[j] = float(val)
-                        except:
-                            if val not in self.naming['from']:
-                                self.naming['from'][val] = naming_num
-                                self.naming['to'][naming_num] = val
-                                naming_num += 1
-                            row[j] = self.naming['from'][val]
-                    rows.append(row)
+        csvfile = get_file(f'{fname}').decode('utf-8').split('\n')
+        reader = csv.reader(csvfile, delimiter=',')
+        for i, row in enumerate(reader):
+            if not row:
+                continue
+
+            if i == 0:
+                self.header = row
+            else:
+                for j, val in enumerate(row):
+                    if val == '':
+                        row[j] = 0
+                        continue
+                    try:
+                        row[j] = float(val)
+                    except Exception as e:
+                        if val not in self.naming['from']:
+                            self.naming['from'][val] = naming_num
+                            self.naming['to'][naming_num] = val
+                            naming_num += 1
+                        row[j] = self.naming['from'][val]
+                rows.append(row)
 
         # first column in row is the classification, Y
         y = numpy.zeros(len(rows))
@@ -279,22 +274,24 @@ class AI(object):
 
     def save(self, save_file):
         t = time.time()
-        f = gzip.open(save_file, 'wb')
-        pickle.dump(self.header, f)
-        pickle.dump(self.naming, f)
-        pickle.dump(self.algorithms, f)
-        pickle.dump(self.family, f)
-        f.close()
+        save_data = {
+            'header': self.header,
+            'naming': self.naming,
+            'algorithms': self.algorithms,
+            'family': self.family
+        }
+        save_data = pickle.dumps(save_data)
+        put_file(f'ai_metadata/{save_file}', save_data)
         self.logger.debug("{:d} ms".format(int(1000 * (t - time.time()))))
 
     def load(self, save_file):
         t = time.time()
-        f = gzip.open(save_file, 'rb')
-        self.header = pickle.load(f)
-        self.naming = pickle.load(f)
-        self.algorithms = pickle.load(f)
-        self.family = pickle.load(f)
-        f.close()
+        downloaded_data = get_file(f'ai_metadata/{save_file}')
+        saved_data = pickle.loads(downloaded_data)
+        self.header = saved_data['header']
+        self.naming = saved_data['naming']
+        self.algorithms = saved_data['algorithms']
+        self.family = saved_data['family']
         self.logger.debug("{:d} ms".format(int(1000 * (t - time.time()))))
 
 
@@ -357,7 +354,7 @@ def do():
                 category=UserWarning)
             try:
                 algorithm.fit(ai.x)
-            except:
+            except Exception as e:
                 continue
 
         if hasattr(algorithm, 'labels_'):
