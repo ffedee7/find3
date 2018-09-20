@@ -41,7 +41,7 @@ def get(piece_id):
 # location_name, description, audio_url, image_url
 @app.route('/pieces', methods=['POST'])
 def add():
-    piece_json = request.json()
+    piece_json = request.get_json()
     required_fields = ["location_name", "description", "audio_url", "image_url"]
     for field in required_fields:
         if field not in piece_json:
