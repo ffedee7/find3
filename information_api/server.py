@@ -1,7 +1,7 @@
 import logging
 from flask import Flask, request, jsonify
 from sql_layer import add_piece, get_all_pieces, get_piece
-
+from flask_cors import CORS
 
 # create logger with 'spam_application'
 logger = logging.getLogger('information')
@@ -18,7 +18,7 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 @app.route('/pieces', methods=['GET'])
@@ -29,12 +29,14 @@ def get_all():
         'pieces': pieces
     })
 
+
 @app.route('/pieces/<piece_id>', methods=['GET'])
 def get(piece_id):
     return jsonify({
         'success': True,
         'pieces': get_piece(piece_id)
     })
+
 
 # location_name, description, audio_url, image_url
 @app.route('/pieces', methods=['POST'])
@@ -58,7 +60,6 @@ def add():
             'success': False,
             'message': str(e)
         })
-
 
 
 if __name__ == "__main__":
