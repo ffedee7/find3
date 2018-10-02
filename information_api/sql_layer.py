@@ -34,6 +34,24 @@ def add_piece(piece_dict):
     db_connection.commit()
     cursor.close()
 
+def edit_piece(piece_id, piece_dict):
+    cursor = db_connection.cursor()
+    cursor.execute(
+        """
+        UPDATE piece SET location_name=%s, description=%s, audio_url=%s, image_url=%s
+        WHERE piece_id = %s;
+        """,
+        (
+            piece_dict['location_name'],
+            piece_dict['description'],
+            piece_dict['audio_url'],
+            piece_dict['image_url'],
+            piece_id
+        )
+    )
+    db_connection.commit()
+    cursor.close()
+
 def get_all_pieces():
     cursor = db_connection.cursor()
     cursor.execute("SELECT * FROM piece;")

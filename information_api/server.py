@@ -1,6 +1,6 @@
 import logging
 from flask import Flask, request, jsonify
-from sql_layer import add_piece, get_all_pieces, get_piece
+from sql_layer import add_piece, get_all_pieces, get_piece, edit_piece
 from flask_cors import CORS
 
 # create logger with 'spam_application'
@@ -24,25 +24,20 @@ CORS(app)
 @app.route('/pieces', methods=['GET'])
 def get_all():
     pieces = get_all_pieces()
-    return jsonify({
-        'success': True,
-        'pieces': pieces
-    })
+    return jsonify(pieces)
 
 
 @app.route('/pieces/<piece_id>', methods=['GET'])
 def get(piece_id):
-    return jsonify({
-        'success': True,
-        'pieces': get_piece(piece_id)
-    })
+    return jsonify(get_piece(piece_id))
 
+
+required_fields = ["location_name", "description", "audio_url", "image_url"]
 
 # location_name, description, audio_url, image_url
 @app.route('/pieces', methods=['POST'])
 def add():
     piece_json = request.get_json()
-    required_fields = ["location_name", "description", "audio_url", "image_url"]
     for field in required_fields:
         if field not in piece_json:
             return jsonify({
@@ -54,6 +49,27 @@ def add():
         return jsonify({
             'success': True,
             'message': "Piece created succesfully!"
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': str(e)
+        })
+
+@app.route('/pieces/<piece_id>', methods=['PUT'])
+def put(piece_id):
+    piece_json = request.get_json()
+    for field in required_fields:
+        if field not in piece_json:
+            return jsonify({
+                'success': False,
+                'message': f"Field {field} is missing!"
+            })
+    try:
+        edit_piece(piece_id, piece_json)
+        return jsonify({
+            'success': True,
+            'message': "Piece edited succesfully!"
         })
     except Exception as e:
         return jsonify({
