@@ -34,6 +34,19 @@ def add_piece(piece_dict):
     db_connection.commit()
     cursor.close()
 
+def delete_piece(piece_id):
+    cursor = db_connection.cursor()
+    cursor.execute(
+        """
+        DELETE FROM piece WHERE piece_id=%s;
+        """,
+        (
+            piece_id
+        )
+    )
+    db_connection.commit()
+    cursor.close()
+
 def edit_piece(piece_id, piece_dict):
     cursor = db_connection.cursor()
     cursor.execute(
