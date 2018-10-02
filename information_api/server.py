@@ -1,6 +1,6 @@
 import logging
 from flask import Flask, request, jsonify
-from sql_layer import add_piece, get_all_pieces, get_piece, edit_piece
+from sql_layer import add_piece, get_all_pieces, get_piece, edit_piece, delete_piece
 from flask_cors import CORS
 
 # create logger with 'spam_application'
@@ -70,6 +70,21 @@ def put(piece_id):
         return jsonify({
             'success': True,
             'message': "Piece edited succesfully!"
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': str(e)
+        })
+
+
+@app.route('/pieces/<piece_id>', methods=['DELETE'])
+def delete(piece_id):
+    try:
+        delete_piece(piece_id)
+        return jsonify({
+            'success': True,
+            'message': "Piece deleted succesfully!"
         })
     except Exception as e:
         return jsonify({
