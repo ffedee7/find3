@@ -287,6 +287,8 @@ class AI(object):
     def load(self, save_file):
         t = time.time()
         downloaded_data = get_file(f'ai_metadata/{save_file}')
+        if not downloaded_data:
+            raise Exception('There is no AI data on S3')
         saved_data = pickle.loads(downloaded_data)
         self.header = saved_data['header']
         self.naming = saved_data['naming']

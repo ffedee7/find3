@@ -53,7 +53,7 @@ def classify():
         logger.debug("loading {}".format(fname))
         try:
             ai.load(fname)
-        except FileNotFoundError:
+        except Exception:
             return jsonify({"success": False, "message": "could not find '{p}'".format(p=fname)})
         ai_cache[payload['sensor_data']['f']] = ai
 
