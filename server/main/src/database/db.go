@@ -431,7 +431,7 @@ func (d *Database) GetSensorFromGreaterTime(timeBlockInMilliseconds int64) (sens
 		return
 	}
 	minimumTimestamp := latestTime - timeBlockInMilliseconds
-	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM (SELECT * FROM sensors WHERE timestamp > $1 GROUP BY deviceid, timestamp ORDER BY timestamp DESC) as SUBQUERY", minimumTimestamp)
+	sensors, err = d.GetAllFromPreparedQuery("SELECT * FROM sensors WHERE timestamp > $1 GROUP BY deviceid, timestamp ORDER BY timestamp DESC;", minimumTimestamp)
 	return
 }
 
