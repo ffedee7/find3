@@ -52,71 +52,7 @@ func Run() (err error) {
 	r.HEAD("/", func(c *gin.Context) { // handler for the uptime robot
 		c.String(http.StatusOK, "OK")
 	})
-	r.GET("/", func(c *gin.Context) { // handler for the uptime robot
-		c.HTML(http.StatusOK, "login.tmpl", gin.H{
-			"Message": "",
-		})
-	})
-	r.POST("/", func(c *gin.Context) {
-		family := c.PostForm("inputFamily")
-		db, err := database.Open(family, true)
-		if err == nil {
-			db.Close()
-			c.Redirect(http.StatusMovedPermanently, "/view/dashboard/"+family)
-		} else {
-			c.HTML(http.StatusOK, "login.tmpl", gin.H{
-				"Message": template.HTML(fmt.Sprintf(`Family '%s' does not exist. Follow <a href="https://www.internalpositioning.com/doc/tracking_your_phone.md" target="_blank">these instructions</a> to get started.`, family)),
-			})
-		}
-
-	})
-	r.DELETE("/api/v1/database/:family", func(c *gin.Context) {
-		db, err := database.Open(c.Param("family"), true)
-		if err == nil {
-			db.Delete()
-			db.Close()
-			c.JSON(200, gin.H{"success": true, "message": "deleted " + c.Param("family")})
-		} else {
-			c.JSON(200, gin.H{"success": false, "message": err.Error()})
-		}
-
-	})
-	r.DELETE("/api/v1/location/:family/:location", func(c *gin.Context) {
-		db, err := database.Open(c.Param("family"), true)
-		if err == nil {
-			err = db.DeleteLocation(c.Param("location"))
-			db.Close()
-			if err == nil {
-				c.JSON(200, gin.H{"success": true, "message": "deleted location '" + c.Param("location") + "' for " + c.Param("family")})
-				return
-			}
-		}
-		c.JSON(200, gin.H{"success": false, "message": err.Error()})
-	})
-	r.GET("/view/location/:family/:device", func(c *gin.Context) {
-		family := c.Param("family")
-		device := c.Param("device")
-		c.HTML(http.StatusOK, "location.tmpl", gin.H{
-			"Family":   family,
-			"Device":   device,
-			"FamilyJS": template.JS(family),
-			"DeviceJS": template.JS(device),
-		})
-	})
-	r.GET("/api/v1/database/:family", func(c *gin.Context) {
-		db, err := database.Open(c.Param("family"), true)
-		if err == nil {
-			var dumped string
-			dumped, err = db.Dump()
-			db.Close()
-			if err == nil {
-				c.String(200, dumped)
-				return
-			}
-		}
-		c.JSON(200, gin.H{"success": false, "message": err.Error()})
-	})
-	r.GET("/view/dashboard/:family", func(c *gin.Context) {
+	r.GET("/", func(c *gin.Context) {
 		type LocEff struct {
 			Name           string
 			Total          int64
@@ -137,7 +73,7 @@ func Run() (err error) {
 			ActiveTime   int64
 		}
 
-		family := c.Param("family")
+		family := "posifi"
 		err := func(family string) (err error) {
 			startTime := time.Now()
 			var errorMessage string
@@ -332,6 +268,54 @@ func Run() (err error) {
 				"Efficacy":     Efficacy{},
 			})
 		}
+	})
+	r.POST("/", func(c *gin.Context) {
+		family := "posifi"
+		db, err := database.Open(family, true)
+		if err == nil {
+			db.Close()
+			c.Redirect(http.StatusMovedPermanently, "/view/dashboard/"+family)
+		} else {
+			c.HTML(http.StatusOK, "login.tmpl", gin.H{
+				"Message": template.HTML(fmt.Sprintf(`Family '%s' does not exist. Follow <a href="https://www.internalpositioning.com/doc/tracking_your_phone.md" target="_blank">these instructions</a> to get started.`, family)),
+			})
+		}
+
+	})
+	r.DELETE("/api/v1/location/:family/:location", func(c *gin.Context) {
+		db, err := database.Open(c.Param("family"), true)
+		if err == nil {
+			err = db.DeleteLocation(c.Param("location"))
+			db.Close()
+			if err == nil {
+				c.JSON(200, gin.H{"success": true, "message": "deleted location '" + c.Param("location") + "' for " + c.Param("family")})
+				return
+			}
+		}
+		c.JSON(200, gin.H{"success": false, "message": err.Error()})
+	})
+	r.GET("/view/location/:family/:device", func(c *gin.Context) {
+		family := c.Param("family")
+		device := c.Param("device")
+		c.HTML(http.StatusOK, "location.tmpl", gin.H{
+			"Family":   family,
+			"Device":   device,
+			"FamilyJS": template.JS(family),
+			"DeviceJS": template.JS(device),
+		})
+	})
+	r.GET("/api/v1/database/:family", func(c *gin.Context) {
+		db, err := database.Open(c.Param("family"), true)
+		if err == nil {
+			var dumped string
+			dumped, err = db.Dump()
+			db.Close()
+			if err == nil {
+				c.String(200, dumped)
+				return
+			}
+		}
+		c.JSON(200, gin.H{"success": false, "message": err.Error()})
 	})
 	r.OPTIONS("/api/v1/devices/*family", func(c *gin.Context) { c.String(200, "OK") })
 	r.GET("/api/v1/devices/*family", handlerApiV1Devices)
