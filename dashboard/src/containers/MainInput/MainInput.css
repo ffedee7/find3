@@ -1,0 +1,22 @@
+.MainInput {
+  max-width: 600px;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  background: white;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+}
+
+.MainInput .ui.CustomInput {
+  padding-bottom: 1em;
+  width: 100%;
+}
+
+.MainInput .FileInput .ui.input {
+  padding-bottom: 1em;
+  width: 50%;
+}
+
+.MainInput .ui.form {
+  padding-bottom: 1em;
+}
