@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  info_api:
+    container_name: info_api
+    build: ./information_api
+    restart: always
+    volumes:
+      - ./information_api:/app
+    ports:
+      - "8003:8003"

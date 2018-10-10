@@ -884,13 +884,13 @@ func Exists(name string) (err error) {
 
 func (d *Database) Delete() (err error) {
 	logger.Log.Debugf("deleting %s", d.family)
-	return os.Remove(d.name)
+	return
 }
 
 // Open will open the database for transactions by first aquiring a filelock.
 func Open(family string, readOnly ...bool) (d *Database, err error) {
 	d = new(Database)
-	d.family = strings.TrimSpace(family)
+	d.family = "posifi"
 
 	connStr := "postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi"
 

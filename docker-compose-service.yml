@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 networks:
   find3-network:
@@ -18,7 +18,7 @@ services:
     links:
       - "ai:ai"
     ports:
-      - "8005:8005"
+      - "80:8005"
     env_file: ./server/main/.env
   ai:
     container_name: ai
@@ -31,13 +31,3 @@ services:
     env_file: ./server/ai/.env
     ports:
       - "8002:8002"
-  info_api:
-    container_name: info_api
-    build: ./information_api
-    restart: always
-    volumes:
-      - ./information_api:/app
-    networks:
-      - find3-network
-    ports:
-      - "8003:8003"

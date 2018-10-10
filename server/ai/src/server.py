@@ -67,21 +67,20 @@ def classify():
 @app.route('/learn', methods=['POST'])
 def learn():
     payload = request.get_json()
+    family = 'posifi'
     if payload is None:
         return jsonify({'success': False, 'message': 'must provide sensor data'})
-    if 'family' not in payload:
-        return jsonify({'success': False, 'message': 'must provide family'})
     if 'csv_file' not in payload:
         return jsonify({'success': False, 'message': 'must provide CSV file'})
 
-    ai = AI(to_base58(payload['family']))
+    ai = AI(to_base58(family))
     try:
         ai.learn(payload['csv_file'])
     except Exception as e:
         return jsonify({"success": False, "message": f"ERROR learning {e}"})
 
-    ai.save(to_base58(payload['family']) + ".ai")
-    ai_cache[payload['family']] = ai
+    ai.save(to_base58(family) + ".ai")
+    ai_cache[family] = ai
     return jsonify({"success": True, "message": "calibrated data"})
 
 

@@ -69,10 +69,10 @@ def timeout(timeout):
 
 class AI(object):
 
-    def __init__(self, family):
+    def __init__(self, family=None):
         self.logger = logging.getLogger('learn.AI')
         self.naming = {'from': {}, 'to': {}}
-        self.family = family
+        self.family = 'posifi'
 
     def classify(self, sensor_data):
         header = self.header[1:]
