@@ -1,6 +1,6 @@
 FROM golang:latest
 
-RUN go get -u -v github.com/schollz/find3/...
+RUN go get -u -v github.com/schollz/find3/...; exit 0
 RUN go get github.com/lib/pq
 RUN go get -u github.com/aws/aws-sdk-go
 

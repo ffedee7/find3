@@ -20,21 +20,32 @@ logger.addHandler(ch)
 app = Flask(__name__)
 CORS(app)
 
+required_fields = ["location_name", "description", "audio_url", "image_url"]
+
 
 @app.route('/pieces', methods=['GET'])
 def get_all():
-    pieces = get_all_pieces()
-    return jsonify(pieces)
+    try:
+        pieces = get_all_pieces()
+        return jsonify(pieces)
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': str(e)
+        })
 
 
 @app.route('/pieces/<piece_id>', methods=['GET'])
 def get(piece_id):
-    return jsonify(get_piece(piece_id))
+    try:
+        return jsonify(get_piece(piece_id))
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': "Piece does not exist."
+        })
 
 
-required_fields = ["location_name", "description", "audio_url", "image_url"]
-
-# location_name, description, audio_url, image_url
 @app.route('/pieces', methods=['POST'])
 def add():
     piece_json = request.get_json()
@@ -55,6 +66,7 @@ def add():
             'success': False,
             'message': str(e)
         })
+
 
 @app.route('/pieces/<piece_id>', methods=['PUT'])
 def put(piece_id):
