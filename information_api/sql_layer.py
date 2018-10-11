@@ -2,6 +2,7 @@ import psycopg2
 
 db_connection = psycopg2.connect("postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi")
 
+
 def create_tables():
     cursor = db_connection.cursor()
     cursor.execute(
@@ -17,6 +18,7 @@ def create_tables():
     )
     db_connection.commit()
     cursor.close()
+
 
 def add_piece(piece_dict):
     cursor = db_connection.cursor()
@@ -34,18 +36,18 @@ def add_piece(piece_dict):
     db_connection.commit()
     cursor.close()
 
+
 def delete_piece(piece_id):
     cursor = db_connection.cursor()
     cursor.execute(
         """
         DELETE FROM piece WHERE piece_id=%s;
         """,
-        (
-            piece_id
-        )
+        (piece_id,)
     )
     db_connection.commit()
     cursor.close()
+
 
 def edit_piece(piece_id, piece_dict):
     cursor = db_connection.cursor()
@@ -65,6 +67,7 @@ def edit_piece(piece_id, piece_dict):
     db_connection.commit()
     cursor.close()
 
+
 def get_all_pieces():
     cursor = db_connection.cursor()
     cursor.execute("SELECT * FROM piece;")
@@ -75,12 +78,14 @@ def get_all_pieces():
 
     return pieces
 
+
 def get_piece(piece_id):
     cursor = db_connection.cursor()
     cursor.execute("SELECT * FROM piece WHERE piece_id = %s;", (piece_id,))
     raw_piece = cursor.fetchone()
 
     return serialize_piece(raw_piece)
+
 
 def serialize_piece(raw_piece):
     return {
