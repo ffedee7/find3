@@ -9,3 +9,12 @@ services:
       - ./information_api:/app
     ports:
       - "8003:8003"
+  info_dashboard:
+    container_name: info_dashboard
+    build: ./dashboard
+    restart: always
+    volumes:
+      - ./dashboard:/app
+    ports:
+      - "80:5000"
+    env_file: ./dashboard/.env

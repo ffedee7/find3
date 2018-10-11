@@ -7,8 +7,9 @@ def create_tables():
     cursor = db_connection.cursor()
     cursor.execute(
         """
-        CREATE TABLE piece(
+        CREATE TABLE pieces(
             piece_id serial PRIMARY KEY,
+            posifi_id TEXT,
             location_name TEXT,
             description TEXT,
             audio_url TEXT,
@@ -24,10 +25,11 @@ def add_piece(piece_dict):
     cursor = db_connection.cursor()
     cursor.execute(
         """
-        INSERT INTO piece (location_name, description, audio_url, image_url) VALUES(%s, %s, %s, %s);
+        INSERT INTO pieces (location_name, posifi_id, description, audio_url, image_url) VALUES(%s, %s, %s, %s, %s);
         """,
         (
             piece_dict['location_name'],
+            piece_dict['posifi_id'],
             piece_dict['description'],
             piece_dict['audio_url'],
             piece_dict['image_url']
@@ -41,7 +43,7 @@ def delete_piece(piece_id):
     cursor = db_connection.cursor()
     cursor.execute(
         """
-        DELETE FROM piece WHERE piece_id=%s;
+        DELETE FROM pieces WHERE piece_id=%s;
         """,
         (piece_id,)
     )
@@ -53,11 +55,12 @@ def edit_piece(piece_id, piece_dict):
     cursor = db_connection.cursor()
     cursor.execute(
         """
-        UPDATE piece SET location_name=%s, description=%s, audio_url=%s, image_url=%s
+        UPDATE pieces SET location_name=%s, posifi_id=%s, description=%s, audio_url=%s, image_url=%s
         WHERE piece_id = %s;
         """,
         (
             piece_dict['location_name'],
+            piece_dict['posifi_id'],
             piece_dict['description'],
             piece_dict['audio_url'],
             piece_dict['image_url'],
@@ -70,7 +73,7 @@ def edit_piece(piece_id, piece_dict):
 
 def get_all_pieces():
     cursor = db_connection.cursor()
-    cursor.execute("SELECT * FROM piece;")
+    cursor.execute("SELECT * FROM pieces;")
     all_pieces = cursor.fetchall()
     pieces = []
     for raw_piece in all_pieces:
@@ -81,7 +84,7 @@ def get_all_pieces():
 
 def get_piece(piece_id):
     cursor = db_connection.cursor()
-    cursor.execute("SELECT * FROM piece WHERE piece_id = %s;", (piece_id,))
+    cursor.execute("SELECT * FROM pieces WHERE piece_id = %s;", (piece_id,))
     raw_piece = cursor.fetchone()
 
     return serialize_piece(raw_piece)
@@ -90,8 +93,9 @@ def get_piece(piece_id):
 def serialize_piece(raw_piece):
     return {
         "piece_id": raw_piece[0],
-        "location_name": raw_piece[1],
-        "description": raw_piece[2],
-        "audio_url": raw_piece[3],
-        "image_url": raw_piece[4]
+        "posifi_id": raw_piece[1],
+        "location_name": raw_piece[2],
+        "description": raw_piece[3],
+        "audio_url": raw_piece[4],
+        "image_url": raw_piece[5]
     }
