@@ -16,7 +16,7 @@ export var MainList = ({ list = [{}] }) => (
             <List.Content>
               <ListHeader item={item} />
               <List.Description as="a">
-                {item.description && item.description.substr(0, 50)}
+                {item && item.description && item.description.substr(0, 50)}
               </List.Description>
             </List.Content>
           </List.Item>

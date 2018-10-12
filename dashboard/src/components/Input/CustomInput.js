@@ -8,7 +8,9 @@ export var CustomInput = ({
   onTextChange,
   value,
   label,
-  placeholder
+  edit = false,
+  placeholder,
+  piece
 }) => (
   <Input
     className={className}

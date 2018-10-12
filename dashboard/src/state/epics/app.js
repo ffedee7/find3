@@ -2,7 +2,7 @@ import { from, of, empty, concat, iif } from "rxjs";
 import { switchMap, catchError } from "rxjs/operators";
 import { push } from "react-router-redux";
 import { toast } from "react-toastify";
-import { kebabCase, pickBy, identity } from "lodash";
+import { kebabCase } from "lodash";
 import AWS from "aws-sdk";
 import {
   APP_INIT,
@@ -154,19 +154,21 @@ export var uploadInfo = ($action, store) => {
         );
       }
 
+      var body = {
+        audio_url: audioUrl,
+        description: state.description || null,
+        posifi_id: state.posifiId || null,
+        image_url: imageUrl,
+        location_name: state.piece
+      };
       var $ajax = ajax({
         url: process.env.REACT_APP_API + "/pieces",
         method: "POST",
-        body: {
-          audio_url: audioUrl,
-          description: state.description || null,
-          image_url: imageUrl,
-          location_name: state.piece
-        },
+        body,
         headers: {
           "Content-Type": "application/json"
         }
-      }).switchMap(() => of({ type: SAVE_DATA_SUCCESS }));
+      }).switchMap(() => of({ type: SAVE_DATA_SUCCESS, payload: body }));
 
       return concat(
         audioObs,
@@ -277,31 +279,18 @@ export var editInfo = ($action, store) => {
           catchError(() => of({ type: SAVE_DATA_ERROR }))
         );
       }
-      var item = state.pieces.find(elem => {
+      var item = state.piecesEdit.find(elem => {
         return elem.piece_id === state.editId;
       });
-
-      var body = {
-        ...item,
-        ...pickBy(
-          {
-            audio_url: audioUrl,
-            description: state.description,
-            image_url: imageUrl,
-            location_name: state.piece
-          },
-          identity
-        )
-      };
 
       var $ajax = ajax({
         url: process.env.REACT_APP_API + `/pieces/${state.editId}`,
         method: "PUT",
-        body,
+        body: item,
         headers: {
           "Content-Type": "application/json"
         }
-      }).switchMap(() => of({ type: SAVE_DATA_SUCCESS }));
+      }).switchMap(() => of({ type: `SAVE_DATA_SUCCESS_2` }));
 
       return concat(
         audioObs,

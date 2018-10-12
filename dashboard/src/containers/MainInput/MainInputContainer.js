@@ -3,8 +3,8 @@ import { MainInput } from "./MainInput";
 
 var mapStateToProps = state => ({
   item:
-    state.pieces &&
-    state.pieces.find(elem => {
+    state.piecesEdit &&
+    state.piecesEdit.find(elem => {
       return elem.piece_id === state.editId;
     }),
   id: state.editId || "",
