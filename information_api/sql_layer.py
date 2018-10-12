@@ -8,7 +8,7 @@ def create_tables():
     cursor.execute(
         """
         CREATE TABLE pieces(
-            piece_id serial PRIMARY KEY,
+            piece_id text PRIMARY KEY,
             posifi_id TEXT,
             location_name TEXT,
             description TEXT,
@@ -25,9 +25,10 @@ def add_piece(piece_dict):
     cursor = db_connection.cursor()
     cursor.execute(
         """
-        INSERT INTO pieces (location_name, posifi_id, description, audio_url, image_url) VALUES(%s, %s, %s, %s, %s);
+        INSERT INTO pieces (piece_id, location_name, posifi_id, description, audio_url, image_url) VALUES(%s, %s, %s, %s, %s, %s);
         """,
         (
+            piece_dict['piece_id'],
             piece_dict['location_name'],
             piece_dict['posifi_id'],
             piece_dict['description'],
