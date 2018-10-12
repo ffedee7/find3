@@ -20,7 +20,7 @@ logger.addHandler(ch)
 app = Flask(__name__)
 CORS(app)
 
-required_fields = ["location_name", "description", "audio_url", "image_url"]
+required_fields = ["piece_id", "location_name", "description", "audio_url", "image_url", "posifi_id"]
 
 
 @app.route('/pieces', methods=['GET'])
