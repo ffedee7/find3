@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-linear-gradient/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="be751157c99fe5cfda0815fcc31e4ec01ed7a39f">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-linear-gradient-unspecified_a1508721db0d2da2d519fb355829130820e707d9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.react/react-native/0.55.3/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="01f201f8a16c7438c9ee4c56139d01663f2cb0e4">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.55.3_35395c4274dd545e01a4b649ad25a0ac290ef9cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="72128af126ddd7d6252da9357fe560d3abcdfb0c">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.3.0_4936a2fb0771ce4a0e33e2a4ad2fb8319eee6996.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f83b00041ecfba705603fec40363416c7de69719">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/internal_impl-25.0.1_c18339392d1d4a1c44a1d3625d9b97b9ae4527b3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/internal_impl-25.0.1_2e314dda5f3a7960a1970d6a7199251c19178983.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.react/react-native/0.55.3/jars/libs/infer-annotations-4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="9809e90be788acdb479b2b44e2112f3295a03068">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/infer-annotations-4.0_75f899a4f63d7592dcd5b0f2b1b362d83edc92a5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer/r2.1.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="1b6a8c5921674faf26796e185a60d62065b4f157">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.google.android.exoplayer-exoplayer-r2.1.1_5625f0f096288126bd56922c148dd5a566066120.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_58bdec0ce68389ded9d21c100003f3046609fde0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_4ee72a2c26d62b17b4e7351bd4b6ccf5d0618118.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="48c7f54c2515a2312d3a4481d10c43fbb807f3af">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.3.0_4a5b81899a7f7e144ba3699095ea2886ebf6b71c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/okio-1.13.0_8d65da1f6f6d0b12ddc6bc0ce41c1191c3a66e1d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.0.1_f87b455f1734c828232ea07e91084f64817416ea.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-25.0.1_9838bd08adcabad2530dcf8301ad23dfcbf6af9b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-compat-25.0.1_be6ce494a24ce449122e108abef338c036365e3b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.0.1_ffa8d914ad1f149a5b795ad7bb78e85b3f11f47f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/internal_impl-25.0.1_5717ffed906919a54425d054899860c9313d140e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.1/support-annotations-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/support-annotations-25.0.1_07c15776bc112b45db0e670b06706b25ecbc5a59.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c03c08c9934b23c8c09c803345ec51a74119127b">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.3.0_85452cc8cd9010f13f1c14ae2dc1537146c1d168.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-sound/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f32485c9b43fb2d1a6cf21e689eda62df638a8a2">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-sound-unspecified_86a329aabd822286fc23053a7ed7d347b2616741.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="37345de2ed2772f385eaeec37a9c2ff0fea99ad7">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.3.0_913f07eb87ebc7f53ebf8adff92c9b76e8cdba6a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_c33adf8a8d4457868dbaa62de9582dc1ffb69edc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/okhttp-3.6.0_2674bcc4ed99d20f4f94d55c2e10b66c4e306b65.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-fetch-blob/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="aa4ebb7a9d9bdd6c1ca76d81e17c538a80962db3">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-fetch-blob-unspecified_62b0f9e3a2a1b14e3f387412191a147887de7f3d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_ece652a8220b61c3d9092be9e0cfa3853df0ae8a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/internal_impl-25.0.1_1446cd6c337661edcd0ea6cc327a41ceb37620a8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-v4/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-v4-25.0.1_6ee0c676bbca0e58784e2ca3b9139a003d180b9a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fresco/fresco/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="fe85b87215e405f5917d40ae4960488ac9224b74">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-1.3.0_2a1f7a42734e619f4bc94a3f7db58926e41371e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/jsr305-3.0.0_0cea18be21a8fb3e920592ff47236a34e3cd5e1e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/internal_impl-25.0.1_1a6b342fd7a8b755e343327a0b2dae9a1ef4c3eb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.0.1_2a9d0b5cfb9e52a4c823b0f43e198ac393ff04bf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.0.1_b30b4b8bb090b3d264e324a9fa9bf1adf9d7c973.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-android-wifi/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="9d80c4f7c09ab55efd79c346caaf02d7f1473ae7">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-android-wifi-unspecified_7e2005979dcbe777af33b59a36a91a7e9e70925b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-audio-toolkit/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="52f6b038cd9db5881e2b394dce5bfd5de974147d">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-audio-toolkit-unspecified_e475a79aa0ce01ad8b41ccbefc5821e2a86e4b01.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.facebook.fresco/drawee/1.3.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c65a2e39d54023bac3aef64a2f0cff89289c7ff6">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.3.0_7ea01e4b23963324e04fa635076f89838779b89d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.0.1_5f65dc24446d912105f098f17a9d6d4526bfcae7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.0.1_69fab92f0308490580a8502d913ad820f1b60b4e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-svg/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="636e13d0d147721155fd6f1a88ee7fd444f71261">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-svg-unspecified_783d0fd885954b9d6bcaddf146232067bb408b58.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_d69452d3928731e75414f68a731c3f956cd135f2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/javax.inject-1_346f7fb620ea7d4b91329ea3eb647ff1bfceb314.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-audio-streamer/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c6b7a9fa8b3c4e35ccd5d31aae1136786cbca0d1">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-audio-streamer-unspecified_8b7b4f01b2e2c1ccdf19e3b38dc34102a8b949e3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/exploded-aar/posifi/react-native-play-audio/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f3d204190e0ae9ff6c74c68d34191505fcc69850">
+        <dex dex="/home/anavcevich/Desktop/Fing/posifi/app/intermediates/pre-dexed/debug/posifi-react-native-play-audio-unspecified_8ed168b7b741c7fbefcdd72c77d8f20b7c47cec1.jar" />
+    </item>
+
+</items>
