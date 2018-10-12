@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import { EnhancedDeleteButtonContainer as Delete } from "../../components/DeleteButton";
 import "react-toastify/dist/ReactToastify.css";
 
-export var MainInput = ({ name, id }) => (
+export var MainInput = ({ name, id, item }) => (
   <div className="MainInput">
     {"Pagina para subir informacion de Obras"}
     <br />
@@ -20,16 +20,22 @@ export var MainInput = ({ name, id }) => (
 
     <CustomInput
       className={"CustomInput"}
-      id={"piece"}
+      id={"location_name"}
       label="Obra"
       placeholder="Obra..."
+      value={(item && item.location_name) || ""}
+      piece={id}
+      edit={true}
     />
 
     <CustomInput
       className={"CustomInput"}
-      id={"posifiId"}
+      id={"posifi_id"}
       label="Posifi ID"
       placeholder="Posifi Id..."
+      value={(item && item.posifi_id) || ""}
+      piece={id}
+      edit={true}
     />
 
     <Form>
@@ -37,6 +43,9 @@ export var MainInput = ({ name, id }) => (
         id={"description"}
         placeholder="Descripcion"
         style={{ minHeight: 100 }}
+        value={(item && item.description) || ""}
+        piece={id}
+        edit={true}
       />
     </Form>
     <FileInput
@@ -59,7 +68,7 @@ export var MainInput = ({ name, id }) => (
     />
 
     <CustomButton>Editar Informacion</CustomButton>
-    <Delete >Eliminar</Delete>
+    <Delete>Eliminar</Delete>
 
     <Back>Atras</Back>
     <ToastContainer />

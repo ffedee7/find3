@@ -9,6 +9,7 @@ import {
   CREATE_DATA_REQUEST,
   EDIT_DATA_REQUEST
 } from "../actions";
+import merge from "lodash/merge.js";
 
 var defaultState = {
   app: {
@@ -46,12 +47,18 @@ export var rootReducer = (state = defaultState, { type, payload }) => {
       return {
         ...state,
         editId: payload.id,
-        editName: payload.name
+        editName: payload.name,
+        piecesEdit: state.pieces
       };
     case `POPULATE_DATA`:
       return {
         ...state,
         pieces: payload
+      };
+    case `SET_INPUT_EDIT`:
+      return {
+        ...state,
+        piecesEdit: editPieces(state, payload)
       };
     case SET_FILE:
       return {
@@ -71,10 +78,17 @@ export var rootReducer = (state = defaultState, { type, payload }) => {
         ...state,
         loading: false
       };
+
+    case `SAVE_DATA_SUCCESS_2`:
+      return {
+        ...state,
+        loading: false
+      };
     case LOGIN_SUCCESS:
     case SAVE_DATA_SUCCESS:
       return {
         ...state,
+        pieces: state.pieces.concat([payload]),
         loading: false,
         imageName: "",
         audioName: "",
@@ -99,4 +113,23 @@ function setPieces(id, state) {
   return state.pieces.filter(obj => {
     return obj.piece_id !== id;
   });
+}
+
+function editPieces(state, payload) {
+  console.log(payload);
+  var idx = state.pieces.findIndex(elem => {
+    return elem.piece_id === payload.id;
+  });
+
+  var res = [];
+
+  if (idx > -1) {
+    res = [
+      ...state.pieces.slice(0, idx),
+      merge({}, state.pieces[idx], { [payload.key]: payload.value }),
+      ...state.pieces.slice(idx + 1)
+    ];
+  }
+
+  return res;
 }
