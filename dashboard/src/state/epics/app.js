@@ -4,6 +4,7 @@ import { push } from "react-router-redux";
 import { toast } from "react-toastify";
 import { kebabCase } from "lodash";
 import AWS from "aws-sdk";
+import cuid from "cuid";
 import {
   APP_INIT,
   LOGIN_ERROR,
@@ -108,13 +109,14 @@ export var uploadInfo = ($action, store) => {
       var audioUrl = null;
       var imageUrl = null;
       var err = false;
+      var id = cuid();
       if (state.audio !== "") {
         buf = new Buffer(
           state.audio.replace(/^data:audio\/\w+;base64,/, ""),
           "base64"
         );
 
-        audioUrl = `${kebabCase(state.piece)}/${state.audioName}`;
+        audioUrl = `${kebabCase(id)}/${state.audioName}`;
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
           Key: audioUrl,
@@ -136,7 +138,7 @@ export var uploadInfo = ($action, store) => {
           "base64"
         );
 
-        imageUrl = `${kebabCase(state.piece)}/${state.imageName}`;
+        imageUrl = `${kebabCase(id)}/${state.imageName}`;
 
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
@@ -155,6 +157,7 @@ export var uploadInfo = ($action, store) => {
       }
 
       var body = {
+        piece_id: id,
         audio_url: audioUrl,
         description: state.description || null,
         posifi_id: state.posifiId || null,
@@ -176,7 +179,10 @@ export var uploadInfo = ($action, store) => {
         $ajax,
         iif(
           () => err === false,
-          of({ type: `SAVE_DATA_SUCCESS_MAIN` }),
+          concat(
+            of({ type: `SAVE_DATA_SUCCESS_MAIN` }),
+            of({ type: APP_INIT })
+          ),
           of({ type: SAVE_DATA_ERROR })
         )
       );
@@ -234,13 +240,17 @@ export var editInfo = ($action, store) => {
       var audioUrl = undefined;
       var imageUrl = undefined;
       var err = false;
+      var item = state.piecesEdit.find(elem => {
+        return elem.piece_id === state.editId;
+      });
+
       if (state.audio !== "" && state.audio !== undefined) {
         buf = new Buffer(
           state.audio.replace(/^data:audio\/\w+;base64,/, ""),
           "base64"
         );
 
-        audioUrl = `${kebabCase(state.piece)}/${state.audioName}`;
+        audioUrl = `${kebabCase(item.piece_id)}/${state.audioName}`;
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
           Key: audioUrl,
@@ -262,7 +272,7 @@ export var editInfo = ($action, store) => {
           "base64"
         );
 
-        imageUrl = `${kebabCase(state.piece)}/${state.imageName}`;
+        imageUrl = `${kebabCase(item.piece_id)}/${state.imageName}`;
 
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
@@ -279,9 +289,6 @@ export var editInfo = ($action, store) => {
           catchError(() => of({ type: SAVE_DATA_ERROR }))
         );
       }
-      var item = state.piecesEdit.find(elem => {
-        return elem.piece_id === state.editId;
-      });
 
       var $ajax = ajax({
         url: process.env.REACT_APP_API + `/pieces/${state.editId}`,
@@ -298,7 +305,10 @@ export var editInfo = ($action, store) => {
         $ajax,
         iif(
           () => err === false,
-          of({ type: `SAVE_DATA_SUCCESS_MAIN` }),
+          concat(
+            of({ type: `SAVE_DATA_SUCCESS_MAIN` }),
+            of({ type: APP_INIT })
+          ),
           of({ type: SAVE_DATA_ERROR })
         )
       );
