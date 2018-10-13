@@ -2,7 +2,6 @@ import { from, of, empty, concat, iif } from "rxjs";
 import { switchMap, catchError } from "rxjs/operators";
 import { push } from "react-router-redux";
 import { toast } from "react-toastify";
-import { kebabCase } from "lodash";
 import AWS from "aws-sdk";
 import cuid from "cuid";
 import {
@@ -116,7 +115,7 @@ export var uploadInfo = ($action, store) => {
           "base64"
         );
 
-        audioUrl = `${kebabCase(id)}/${state.audioName}`;
+        audioUrl = `${id}/${state.audioName}`;
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
           Key: audioUrl,
@@ -138,7 +137,7 @@ export var uploadInfo = ($action, store) => {
           "base64"
         );
 
-        imageUrl = `${kebabCase(id)}/${state.imageName}`;
+        imageUrl = `${id}/${state.imageName}`;
 
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
@@ -250,7 +249,7 @@ export var editInfo = ($action, store) => {
           "base64"
         );
 
-        audioUrl = `${kebabCase(item.piece_id)}/${state.audioName}`;
+        audioUrl = `${item.piece_id}/${state.audioName}`;
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
           Key: audioUrl,
@@ -272,7 +271,7 @@ export var editInfo = ($action, store) => {
           "base64"
         );
 
-        imageUrl = `${kebabCase(item.piece_id)}/${state.imageName}`;
+        imageUrl = `${item.piece_id}/${state.imageName}`;
 
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
