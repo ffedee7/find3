@@ -32,7 +32,7 @@ def get_all():
         return jsonify({
             'success': False,
             'message': str(e)
-        })
+        }), 500
 
 
 @app.route('/pieces/<piece_id>', methods=['GET'])
@@ -43,7 +43,7 @@ def get(piece_id):
         return jsonify({
             'success': False,
             'message': "Piece does not exist."
-        })
+        }), 404
 
 
 @app.route('/pieces', methods=['POST'])
@@ -54,7 +54,7 @@ def add():
             return jsonify({
                 'success': False,
                 'message': f"Field {field} is missing!"
-            })
+            }), 400
     try:
         add_piece(piece_json)
         return jsonify({
@@ -65,7 +65,7 @@ def add():
         return jsonify({
             'success': False,
             'message': str(e)
-        })
+        }), 500
 
 
 @app.route('/pieces/<piece_id>', methods=['PUT'])
@@ -76,7 +76,7 @@ def put(piece_id):
             return jsonify({
                 'success': False,
                 'message': f"Field {field} is missing!"
-            })
+            }), 400
     try:
         edit_piece(piece_id, piece_json)
         return jsonify({
@@ -87,7 +87,7 @@ def put(piece_id):
         return jsonify({
             'success': False,
             'message': str(e)
-        })
+        }), 500
 
 
 @app.route('/pieces/<piece_id>', methods=['DELETE'])
@@ -102,7 +102,7 @@ def delete(piece_id):
         return jsonify({
             'success': False,
             'message': str(e)
-        })
+        }), 500
 
 
 if __name__ == "__main__":
