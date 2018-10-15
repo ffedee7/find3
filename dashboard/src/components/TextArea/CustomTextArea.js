@@ -7,7 +7,8 @@ export var CustomTextArea = ({
   onTextChange,
   value,
   label,
-  placeholder
+  placeholder,
+  edit = false
 }) => (
   <TextArea
     onChange={onTextChange(id)}
