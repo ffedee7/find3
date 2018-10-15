@@ -7,6 +7,10 @@ var mapActionsToProps = {
   onChange: (key, value) => ({
     type: SET_INPUT,
     payload: { key, value }
+  }),
+  onChangeEdit: (key, value, id) => ({
+    type: `SET_INPUT_EDIT`,
+    payload: { key, value, id }
   })
 };
 

@@ -4,8 +4,12 @@ import { CustomTextArea } from "./CustomTextArea";
 
 var enhance = compose(
   withHandlers({
-    onTextChange: ({ onChange }) => key => e => {
-      onChange(key, e.target.value);
+    onTextChange: ({ onChange, onChangeEdit, edit, piece }) => key => e => {
+      if (edit) {
+        onChangeEdit(key, e.target.value, piece);
+      } else {
+        onChange(key, e.target.value);
+      }
     }
   })
 );
