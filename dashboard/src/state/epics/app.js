@@ -158,10 +158,10 @@ export var uploadInfo = ($action, store) => {
 
       var body = {
         piece_id: id,
-        audio_url: audioUrl,
+        audio_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + audioUrl,
         description: state.description || null,
         posifi_id: state.posifiId || null,
-        image_url: imageUrl,
+        image_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + imageUrl,
         location_name: state.piece
       };
       var $ajax = ajax({
@@ -250,7 +250,7 @@ export var editInfo = ($action, store) => {
           "base64"
         );
 
-        audioUrl = `${kebabCase(item.piece_id)}/${state.audioName}`;
+        audioUrl = `${item.piece_id}/${state.audioName}`;
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
           Key: audioUrl,
@@ -272,7 +272,7 @@ export var editInfo = ($action, store) => {
           "base64"
         );
 
-        imageUrl = `${kebabCase(item.piece_id)}/${state.imageName}`;
+        imageUrl = `${item.piece_id}/${state.imageName}`;
 
         params = {
           Bucket: process.env.REACT_APP_BUCKET,
@@ -290,10 +290,20 @@ export var editInfo = ($action, store) => {
         );
       }
 
+      var body = {
+        ...item,
+        ...(audioUrl !== undefined && {
+          audio_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + audioUrl
+        }),
+        ...(imageUrl !== undefined && {
+          image_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + imageUrl
+        })
+      };
+
       var $ajax = ajax({
         url: process.env.REACT_APP_API + `/pieces/${state.editId}`,
         method: "PUT",
-        body: item,
+        body: body,
         headers: {
           "Content-Type": "application/json"
         }
