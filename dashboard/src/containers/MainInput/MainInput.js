@@ -60,7 +60,7 @@ export var MainInput = ({ name, id, item }) => (
     <FileInput
       className={"FileInput"}
       placeholder={"Audios..."}
-      idType={"audiName"}
+      idType={"audioName"}
       icon={"headphones"}
       text={"Elegir Audio"}
       accept={"audio/*"}
