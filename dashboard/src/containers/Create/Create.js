@@ -7,6 +7,7 @@ import { EnhancedSaveButtonContainer as CustomButton } from "../../components/Sa
 import { EnhancedBackButtonContainer as Back } from "../../components/BackButton";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { EnhancedCustomToggleContainer as Toggle } from "../../components/Toggle";
 export var Create = () => (
   <div className="MainInput">
     {"Pagina para subir informacion de Obras"}
@@ -33,6 +34,9 @@ export var Create = () => (
         style={{ minHeight: 100 }}
       />
     </Form>
+
+    <Toggle text={'Es del recorrido para ciegos?'}/>
+    
     <FileInput
       className={"FileInput"}
       placeholder={"Imagenes..."}

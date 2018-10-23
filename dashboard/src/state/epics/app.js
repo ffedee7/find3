@@ -161,7 +161,8 @@ export var uploadInfo = ($action, store) => {
         description: state.description || null,
         posifi_id: state.posifiId || null,
         image_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + imageUrl,
-        location_name: state.piece
+        location_name: state.piece,
+        is_blind_path: state.toggle || false
       };
       var $ajax = ajax({
         url: process.env.REACT_APP_API + "/pieces",

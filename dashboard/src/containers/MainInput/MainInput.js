@@ -7,6 +7,7 @@ import { EnhancedSaveButtonContainer as CustomButton } from "../../components/Sa
 import { EnhancedBackButtonContainer as Back } from "../../components/BackButton";
 import { ToastContainer } from "react-toastify";
 import { EnhancedDeleteButtonContainer as Delete } from "../../components/DeleteButton";
+import { EnhancedCustomToggleContainer as Toggle } from "../../components/Toggle";
 import "react-toastify/dist/ReactToastify.css";
 
 export var MainInput = ({ name, id, item }) => (
@@ -48,6 +49,15 @@ export var MainInput = ({ name, id, item }) => (
         edit={true}
       />
     </Form>
+
+    <Toggle
+      id={"is_blind_path"}
+      piece={id}
+      edit={true}
+      value={(item && item.is_blind_path) || false}
+      text={"Es del recorrido para ciegos?"}
+    />
+
     <FileInput
       className={"FileInput"}
       placeholder={"Imagenes..."}
