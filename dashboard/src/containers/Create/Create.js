@@ -36,6 +36,7 @@ export var Create = () => (
     </Form>
 
     <Toggle text={'Es del recorrido para ciegos?'}/>
+    
     <FileInput
       className={"FileInput"}
       placeholder={"Imagenes..."}

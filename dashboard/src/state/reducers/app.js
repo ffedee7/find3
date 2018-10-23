@@ -60,6 +60,16 @@ export var rootReducer = (state = defaultState, { type, payload }) => {
         ...state,
         piecesEdit: editPieces(state, payload)
       };
+    case `SET_TOGGLE_EDIT`:
+      return {
+        ...state,
+        piecesEdit: editPieces(state, payload)
+      };
+    case `SET_TOGGLE`:
+      return {
+        ...state,
+        toggle: payload.value
+      };
     case SET_FILE:
       return {
         ...state,
@@ -116,7 +126,6 @@ function setPieces(id, state) {
 }
 
 function editPieces(state, payload) {
-  console.log(payload);
   var idx = state.pieces.findIndex(elem => {
     return elem.piece_id === payload.id;
   });
