@@ -54,7 +54,7 @@ export var MainInput = ({ name, id, item }) => (
       id={"is_blind_path"}
       piece={id}
       edit={true}
-      value={(item && item.is_blind_path) || false}
+      checked={(item && item.is_blind_path) || false}
       text={"Es del recorrido para ciegos?"}
     />
 

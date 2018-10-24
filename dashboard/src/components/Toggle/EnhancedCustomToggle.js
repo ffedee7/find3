@@ -4,9 +4,16 @@ import { CustomToggle } from "./CustomToggle";
 
 var enhance = compose(
   withHandlers({
-    onChange: ({ onChange, onChangeEdit, value, edit, piece }) => key => e => {
+    onChange: ({
+      onChange,
+      onChangeEdit,
+      value,
+      checked,
+      edit,
+      piece
+    }) => key => e => {
       if (edit) {
-        onChangeEdit(key, !value, piece);
+        onChangeEdit(key, !checked, piece);
       } else {
         onChange(!value);
       }

@@ -18,7 +18,8 @@ var defaultState = {
   imageName: "",
   audioName: "",
   audio: "",
-  image: ""
+  image: "",
+  toggle: false
 };
 
 export var rootReducer = (state = defaultState, { type, payload }) => {
@@ -61,6 +62,7 @@ export var rootReducer = (state = defaultState, { type, payload }) => {
         piecesEdit: editPieces(state, payload)
       };
     case `SET_TOGGLE_EDIT`:
+      console.log(payload);
       return {
         ...state,
         piecesEdit: editPieces(state, payload)
