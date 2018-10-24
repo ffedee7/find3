@@ -1,6 +1,8 @@
 import logging
 from flask import Flask, request, jsonify
-from sql_layer import add_piece, get_all_pieces, get_piece, edit_piece, delete_piece
+from sql_layer import (
+    add_piece, get_all_pieces, get_piece, edit_piece, delete_piece, get_pieces_from_location
+)
 from flask_cors import CORS
 
 # create logger with 'spam_application'
@@ -27,6 +29,18 @@ required_fields = ["piece_id", "location_name", "description", "audio_url", "ima
 def get_all():
     try:
         pieces = get_all_pieces()
+        return jsonify(pieces)
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': str(e)
+        }), 500
+
+
+@app.route('/pieces/posifi_id/<posifi_id>', methods=['GET'])
+def get_from_posifi(posifi_id):
+    try:
+        pieces = get_pieces_from_location(posifi_id)
         return jsonify(pieces)
     except Exception as e:
         return jsonify({
