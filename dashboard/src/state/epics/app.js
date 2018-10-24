@@ -157,10 +157,16 @@ export var uploadInfo = ($action, store) => {
 
       var body = {
         piece_id: id,
-        audio_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + audioUrl,
+        audio_url:
+          audioUrl === null
+            ? null
+            : "https://posifi-app.s3.sa-east-1.amazonaws.com/" + audioUrl,
         description: state.description || null,
         posifi_id: state.posifiId || null,
-        image_url: "https://posifi-app.s3.sa-east-1.amazonaws.com/" + imageUrl,
+        image_url:
+          imageUrl === null
+            ? null
+            : "https://posifi-app.s3.sa-east-1.amazonaws.com/" + imageUrl,
         location_name: state.piece,
         is_blind_path: state.toggle || false
       };
