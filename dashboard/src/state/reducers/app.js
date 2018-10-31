@@ -10,6 +10,7 @@ import {
   EDIT_DATA_REQUEST
 } from "../actions";
 import merge from "lodash/merge.js";
+import orderBy from "lodash/orderBy.js";
 
 var defaultState = {
   app: {
@@ -54,7 +55,7 @@ export var rootReducer = (state = defaultState, { type, payload }) => {
     case `POPULATE_DATA`:
       return {
         ...state,
-        pieces: payload
+        pieces: orderBy(payload, ["location_name"])
       };
     case `SET_INPUT_EDIT`:
       return {
@@ -62,7 +63,6 @@ export var rootReducer = (state = defaultState, { type, payload }) => {
         piecesEdit: editPieces(state, payload)
       };
     case `SET_TOGGLE_EDIT`:
-      console.log(payload);
       return {
         ...state,
         piecesEdit: editPieces(state, payload)
