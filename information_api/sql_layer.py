@@ -1,10 +1,21 @@
 import psycopg2
 
-db_connection = psycopg2.connect("postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi")
+conn_str = "postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi"
+
+db_connection = psycopg2.connect(conn_str)
+
+
+def create_cursor():
+    global db_connection
+    try:
+        return db_connection.cursor()
+    except Exception as e:
+        db_connection = psycopg2.connect(conn_str)
+        return db_connection.cursor()
 
 
 def create_tables():
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute(
         """
         CREATE TABLE pieces(
@@ -23,7 +34,7 @@ def create_tables():
 
 
 def add_piece(piece_dict):
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute(
         """
         INSERT INTO pieces (piece_id, location_name, posifi_id, description, audio_url, image_url, is_blind_path) VALUES(%s, %s, %s, %s, %s, %s, %s);
@@ -43,7 +54,7 @@ def add_piece(piece_dict):
 
 
 def delete_piece(piece_id):
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute(
         """
         DELETE FROM pieces WHERE piece_id=%s;
@@ -55,7 +66,7 @@ def delete_piece(piece_id):
 
 
 def edit_piece(piece_id, piece_dict):
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute(
         """
         UPDATE pieces SET location_name=%s, posifi_id=%s, description=%s, audio_url=%s, image_url=%s, is_blind_path=%s
@@ -76,7 +87,7 @@ def edit_piece(piece_id, piece_dict):
 
 
 def get_all_pieces():
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute("SELECT * FROM pieces;")
     all_pieces = cursor.fetchall()
     pieces = []
@@ -87,7 +98,7 @@ def get_all_pieces():
 
 
 def get_pieces_from_location(posifi_id):
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute("SELECT * FROM pieces WHERE posifi_id = %s;", (posifi_id,))
     all_pieces = cursor.fetchall()
     pieces = []
@@ -98,7 +109,7 @@ def get_pieces_from_location(posifi_id):
 
 
 def get_piece(piece_id):
-    cursor = db_connection.cursor()
+    cursor = create_cursor()
     cursor.execute("SELECT * FROM pieces WHERE piece_id = %s;", (piece_id,))
     raw_piece = cursor.fetchone()
 
