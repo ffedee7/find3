@@ -170,7 +170,7 @@ class AI(object):
         #     name, int(1000 * (t - time.time()))))
         self.results[index] = predict_payload
 
-    @timeout(10)
+    @timeout(120)
     def train(self, clf, x, y):
         return clf.fit(x, y)
 
@@ -217,7 +217,7 @@ class AI(object):
         names = [
             "Nearest Neighbors",
             "Linear SVM",
-            "RBF SVM",
+            #"RBF SVM",
             # "Gaussian Process",
             "Decision Tree",
             "Random Forest",
@@ -228,7 +228,7 @@ class AI(object):
         classifiers = [
             KNeighborsClassifier(3),
             SVC(kernel="linear", C=0.025, probability=True),
-            SVC(gamma=2, C=1, probability=True),
+            #SVC(gamma=2, C=1, probability=True),
             # GaussianProcessClassifier(1.0 * RBF(1.0), warm_start=True),
             DecisionTreeClassifier(max_depth=5),
             RandomForestClassifier(

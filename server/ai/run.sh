@@ -1,6 +1,6 @@
 #!/bin/sh
 cd src && \
-	gunicorn --bind 0.0.0.0:8002 server:app -w 8
+	gunicorn --bind 0.0.0.0:8002 server:app -w 8 --timeout 300 --graceful-timeout 280
 
 # export LC_ALL=C.UTF-8 && \
 # export LANG=C.UTF-8 && \
