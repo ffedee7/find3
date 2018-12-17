@@ -77,9 +77,9 @@ func splitDataForLearning(datas []models.SensorData, crossValidation ...bool) (d
 			j := rand.Intn(i + 1)
 			datas[i], datas[j] = datas[j], datas[i]
 		}
-		if len(datas) > 1000 {
-			datas = datas[:1000]
-		}
+		// if len(datas) > 1000 {
+		// 	datas = datas[:1000]
+		// }
 
 		// triage into different locations
 		dataLocations := make(map[string][]int)
