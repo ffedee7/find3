@@ -1,6 +1,7 @@
+import os
 import psycopg2
 
-conn_str = "postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi"
+conn_str = os.environ.get('POSTGRESQL_CONN_STRING')
 
 db_connection = psycopg2.connect(conn_str)
 
