@@ -892,7 +892,7 @@ func Open(family string, readOnly ...bool) (d *Database, err error) {
 	d = new(Database)
 	d.family = "posifi"
 
-	connStr := "postgres://posifi:posifiposifi@posifi-db.c5jlfkn2l4jz.sa-east-1.rds.amazonaws.com/posifi"
+	connStr := os.Getenv("POSTGRESQL_CONN_STRING")
 
 	// open sqlite3 database
 	d.db, err = sql.Open("postgres", connStr)
