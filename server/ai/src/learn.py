@@ -225,7 +225,7 @@ class AI(object):
             "AdaBoost",
             # "Naive Bayes",
             # "QDA"
-            ]
+        ]
         classifiers = [
             KNeighborsClassifier(3),
             SVC(kernel="linear", C=0.025, probability=True),
@@ -237,7 +237,8 @@ class AI(object):
             MLPClassifier(alpha=1),
             AdaBoostClassifier(),
             # GaussianNB(),
-            # QuadraticDiscriminantAnalysis()]
+            # QuadraticDiscriminantAnalysis()
+        ]
         self.algorithms = {}
         # split_for_learning = int(0.70 * len(y))
         for name, clf in zip(names, classifiers):
