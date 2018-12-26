@@ -191,7 +191,7 @@ class AI(object):
             else:
                 for j, val in enumerate(row):
                     if val == '':
-                        row[j] = 0
+                        row[j] = -90
                         continue
                     try:
                         row[j] = float(val)
@@ -223,8 +223,9 @@ class AI(object):
             "Random Forest",
             "Neural Net",
             "AdaBoost",
-            "Naive Bayes",
-            "QDA"]
+            # "Naive Bayes",
+            # "QDA"
+            ]
         classifiers = [
             KNeighborsClassifier(3),
             SVC(kernel="linear", C=0.025, probability=True),
@@ -235,8 +236,8 @@ class AI(object):
                 max_depth=5, n_estimators=10, max_features=1),
             MLPClassifier(alpha=1),
             AdaBoostClassifier(),
-            GaussianNB(),
-            QuadraticDiscriminantAnalysis()]
+            # GaussianNB(),
+            # QuadraticDiscriminantAnalysis()]
         self.algorithms = {}
         # split_for_learning = int(0.70 * len(y))
         for name, clf in zip(names, classifiers):
