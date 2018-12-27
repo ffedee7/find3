@@ -77,7 +77,8 @@ class AI(object):
     def classify(self, sensor_data):
         header = self.header[1:]
         is_unknown = True
-        csv_data = numpy.zeros(len(header))
+        csv_data = numpy.empty(len(header))
+        csv_data.fill(-90)
         for sensorType in sensor_data['s']:
             for sensor in sensor_data['s'][sensorType]:
                 sensorName = sensorType + "-" + sensor

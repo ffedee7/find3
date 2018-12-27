@@ -31,11 +31,11 @@ func NewBinaryStats(tp, fp, tn, fn int) BinaryStats {
 	tnf := float64(tn)
 	fnf := float64(fn)
 	sensitivity := float64(0)
-	if tpf+fnf != 0 {
+	if tpf + fnf != 0 {
 		sensitivity = tpf / (tpf + fnf)
 	}
 	specificity := float64(0)
-	if tnf+fpf != 0 {
+	if tnf + fpf != 0 {
 		specificity = tnf / (tnf + fpf)
 	}
 	mcc := float64(0)
@@ -45,6 +45,10 @@ func NewBinaryStats(tp, fp, tn, fn int) BinaryStats {
 	fisher_p := float64(1)
 	if NChooseK(tpf+fpf+tnf+fnf, tpf+fpf) > 0 {
 		fisher_p = NChooseK(tpf+fnf, tpf) * NChooseK(fpf+tnf, fpf) / NChooseK(tpf+fpf+tnf+fnf, tpf+fpf)
+	}
+
+	if math.IsNaN(fisher_p){
+		fisher_p = float64(0)
 	}
 
 	return BinaryStats{
